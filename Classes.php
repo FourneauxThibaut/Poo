@@ -277,7 +277,29 @@ class validator {
             //      │ exemple: $validation->is_number(2);                                    │
             //      └────────────────────────────────────────────────────────────────────────┘
       public function is_number($number){
-            (is_nan($number) ? return 'error'; : return $number);
+            return(is_nan($number) ?  'error' : $number);
+      }
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                                  Method is_int                         │
+            //      │                                                                        │
+            //      │                         Use "$number"                                  │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $validation->is_int(2);                                       │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function is_int($number){
+            return(is_int($number) ? $number : 'error');
+      }
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                                  Method is_float                       │
+            //      │                                                                        │
+            //      │                         Use "$number"                                  │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $validation->is_int(2);                                       │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function is_float($number){
+            return(is_float($number) ? $number : 'error');
       }
 
             //      ┌────────────────────────────────────────────────────────────────────────┐
@@ -288,43 +310,150 @@ class validator {
             //      │ exemple: $validation->is_string('helloww');                            │
             //      └────────────────────────────────────────────────────────────────────────┘
       public function is_string($string){
-            (is_nan($number) ? return $number; : return 'error');
+            return(is_nan($string) ? $string : 'error');
       }    
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                                  Method is_email                       │
+            //      │                                                                        │
+            //      │                         Use "$email"                                   │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $validation->is_email('fourneaux.thibaut@gmail.com');         │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function is_email($email){
+            return(filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : 'error');
+      }      
 }
 
 class storage {
 
-      public function create_session(){
-
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                       Method create_session                            │
+            //      │                                                                        │
+            //      │                 Use "$name, $content"                                  │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->create_session('message', 'mail envoyer');          │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function create_session($name, $content){
+            $_SESSION[$name]="$content";
       }
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                       Method get_session                               │
+            //      │                                                                        │
+            //      │                           Use "$name                                   │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->get_session('message');                             │
+            //      └────────────────────────────────────────────────────────────────────────┘
       public function get_session($name){
             if(isset($_SESSION[$name])) {
                   echo $_SESSION[$name] ;
             }
+            else {
+                  echo $name." session not found.";
+            }
       }
-      public function delete_session(){
-            // unset($_SESSION["errorfirstName"]);
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                       Method delete_session                            │
+            //      │                                                                        │
+            //      │                           Use "$name                                   │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->delete_session('message');                          │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function delete_session($name){
+            unset($_SESSION["$name"]);
       }
 
-
-
-
-      public function create_success_session(){
-            
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                       Method clear_all_session                         │
+            //      │                                                                        │
+            //      │                           Use "$array                                  │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->clear_all_session();                                │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function clear_all_session(){
+            $helper = array_keys($_SESSION);
+            foreach ($helper as $key){
+                unset($_SESSION[$key]);
+            }
       }
-      public function get_success_session(){
 
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                    Method create_success_session                       │
+            //      │                                                                        │
+            //      │                 Use "$name, $content"                                  │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->create_session('message', 'mail envoyer');          │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function create_success_session($name, $content){
+            $successName = 'success'.$name;
+            $_SESSION[$successName]="$content";
       }
-      public function delete_success_session(){
 
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                     Method get_success_session                         │
+            //      │                                                                        │
+            //      │                 Use "$name, $content"                                  │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->get_success_session('message', 'mail envoyer');     │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function get_success_session($name){
+            if(isset($_SESSION['success'.$name])) {
+                  echo $_SESSION['success'.$name] ;
+            }
+            else {
+                  echo $name." session not found.";
+            }
       }
-      public function create_error_session(){
-            
-      }
-      public function get_error_session(){
 
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                     Method delete_success_session                      │
+            //      │                                                                        │
+            //      │                 Use "$name                                             │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->delete_success_session('message');                  │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function delete_success_session($name){
+            unset($_SESSION['success'.$name]);
       }
-      public function delete_error_session(){
 
+            //      ┌─────────────────────────────────────────────────────────────────────────────┐
+            //      │                     Method create_error_session                             │
+            //      │                                                                             │
+            //      │                 Use "$name                                                  │
+            //      ├─────────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->create_error_session('message', 'the field is empty');   │
+            //      └─────────────────────────────────────────────────────────────────────────────┘
+      public function create_error_session($name, $content){
+            $errorName = 'error'.$name;
+            $_SESSION[$errorName]="$content";
+      }
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                     Method get_error_session                           │
+            //      │                                                                        │
+            //      │                     Use "$name                                         │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->get_error_session('message');                       │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function get_error_session($name){
+            if(isset($_SESSION['error'.$name])) {
+                  echo $_SESSION['error'.$name] ;
+            }
+            else {
+                  echo $name." session not found.";
+            }
+      }
+
+            //      ┌────────────────────────────────────────────────────────────────────────┐
+            //      │                     Method delete_error_session                        │
+            //      │                                                                        │
+            //      │                     Use "$name                                         │
+            //      ├────────────────────────────────────────────────────────────────────────┤
+            //      │ exemple: $storage->delete_error_session('message');                    │
+            //      └────────────────────────────────────────────────────────────────────────┘
+      public function delete_error_session($name){
+            unset($_SESSION['error'.$name]);
       }
 }
