@@ -14,7 +14,6 @@
                 <ul>
                     <li><a href="ex1";>étape 1</a></li>
                     <li><a href="ex2";>étape 2</a></li>
-                    <li><a href="ex3";>étape 3</a></li>
                 </ul>
             </li>
             <li>Ex2
